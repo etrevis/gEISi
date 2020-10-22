@@ -207,7 +207,7 @@ fprintf('Analyzing models of complexity %d\n',M);
 % Note that the total number of parameters is K+3*M+1; K point parameters,
 % 3*M parameters for the basis functions, and the hyperparameterized
 % log-measurement variance.
-options=optimset('MaxFunEvals',100*(K+3*M+1)^2,'MaxIter',100*(K+3*M+1)^2);
+options=optimoptions('fmincon','MaxFunctionEvaluations',100*(K+3*M+1)^2,'MaxIterations',100*(K+3*M+1)^2,'Display','notify-detailed');
 % Setup the inequality constraint requiring the masses to be positive.
 A1=cat(2,zeros(M,K),-eye(M),zeros(M,2*M+1));
 A2=cat(2,zeros(M-1,K+M),cat(2,eye(M-1),zeros(M-1,1))-cat(2,zeros(M-1,1),eye(M-1)),zeros(M-1,M+1));
@@ -286,7 +286,7 @@ for i1=1:L
     fprintf('Analyzing models of complexity %d, variant %d\n',M,i1);
     
     % Set up subsequent optimization problems.
-    options=optimset('MaxFunEvals',100*(K+3*M+1)^2,'MaxIter',100*(K+3*M+1)^2);
+    options=optimoptions('fmincon','MaxFunctionEvaluations',100*(K+3*M+1)^2,'MaxIterations',100*(K+3*M+1)^2,'Display','notify-detailed');
     % Setup the inequality constraint requiring the masses to be positive.
     A1=cat(2,zeros(M,K),-eye(M),zeros(M,2*M+1));
     A2=cat(2,zeros(M-1,K+M),cat(2,eye(M-1),zeros(M-1,1))-cat(2,zeros(M-1,1),eye(M-1)),zeros(M-1,M+1));
@@ -367,7 +367,7 @@ while abs(XvalPrev-Xval)>relTol*4*J
         fprintf('Analyzing models of complexity %d, variant %d\n',M,i1);
         
         % Set up subsequent optimization problems.
-        options=optimset('MaxFunEvals',100*(K+3*M+1)^2,'MaxIter',100*(K+3*M+1)^2);
+        options=optimoptions('fmincon','MaxFunctionEvaluations',100*(K+3*M+1)^2,'MaxIterations',100*(K+3*M+1)^2,'Display','notify-detailed');
         % Setup the inequality constraint requiring the masses to be positive.
         A1=cat(2,zeros(M,K),-eye(M),zeros(M,2*M+1));
         A2=cat(2,zeros(M-1,K+M),cat(2,eye(M-1),zeros(M-1,1))-cat(2,zeros(M-1,1),eye(M-1)),zeros(M-1,M+1));
@@ -452,7 +452,7 @@ gn=[];
 M=sum(modality,1);
 
 % Set up subsequent optimization problems.
-options=optimset('MaxFunEvals',100*(K+3*M+1)^2,'MaxIter',100*(K+3*M+1)^2);
+options=optimoptions('fmincon','MaxFunctionEvaluations',100*(K+3*M+1)^2,'MaxIterations',100*(K+3*M+1)^2,'Display','notify');
 % Setup the inequality constraint requiring the masses to be positive.
 A1=cat(2,zeros(M,K),-eye(M),zeros(M,2*M+1));
 A2=cat(2,zeros(M-1,K+M),cat(2,eye(M-1),zeros(M-1,1))-cat(2,zeros(M-1,1),eye(M-1)),zeros(M-1,M+1));

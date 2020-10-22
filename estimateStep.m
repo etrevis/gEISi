@@ -53,6 +53,10 @@ global J K sige w
 % processes.
 M=sum(modality,1);
 
+% Set up subsequent optimization problems. For now only decreseased
+% verbosity
+options=optimoptions('fmincon','Display','notify-detailed');
+
 % Perform the diagonal search. Diagonal search is done by optimizing a few
 % parameters at a time.
 % parameter at a time. We start with the log-variances, since they are the
@@ -65,12 +69,12 @@ for i1=searchSet
     if i1>=K+1 && i1<=K+M
         % Construct an anonymous function for the i1-th parameter
         altFun=@(altg)objectiveFunction(fun,cat(1,g(1:i1-1),altg,g(i1+1:K+3*M+1)),modality,distType,dataType);
-        g(i1)=fmincon(altFun,g(i1),[],[],[],[],0,[]);
+        g(i1)=fmincon(altFun,g(i1),[],[],[],[],0,[],[],options);
     elseif i1==K+M+1
         altFun=@(altg)objectiveFunction(fun,cat(1,g(1:i1-1),altg,g(i1+M:K+3*M+1)),modality,distType,dataType);
         A=cat(2,eye(M-1),zeros(M-1,1))-cat(2,zeros(M-1,1),eye(M-1));
         B=zeros(M-1,1);
-        g(i1:i1+M-1)=fmincon(altFun,g(i1:i1+M-1),A,B,[],[],[],[]);
+        g(i1:i1+M-1)=fmincon(altFun,g(i1:i1+M-1),A,B,[],[],[],[],[],options);
     elseif i1<=K || i1>+K+2*M+1
         % Construct an anonymous function for the i1-th parameter
         altFun=@(altg)objectiveFunction(fun,cat(1,g(1:i1-1),altg,g(i1+1:K+3*M+1)),modality,distType,dataType);
